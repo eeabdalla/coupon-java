@@ -1,11 +1,14 @@
-### Tasks:
+# Part 1 - Hands-on Implementation
 
-1. Implement a new endpoint for saving multiple coupons at once
-2. Improve error handling in REST controller
+1. Design and implement a bulk-insert REST endpoint to efficiently save multiple coupons.
+2. Refactor the API to implement a robust, global error handling mechanism.
 
-### Questions:
+# Part 2 - Architecture & Code Review:
 
-1. At a certain point the service will manage high amount of coupons. What concerns do you have with the current
-   endpoints?
-2. Have a look at the CouponRepository. Do you see any potential for improvements?
-3. What problem could occur, if someone uses the new endpoint to insert a huge amount of coupons into the database?
+1. **Scalability**: Assuming the database grows to millions of records, what stability risks do you identify in the
+   current
+   GET endpoint, and how would you resolve them
+2. **Persistence**: Review the CouponRepository and the current cleanup logic. How could you simplify the code and
+   optimize the data expiration using framework or native database features?
+3. **Resilience**: If a client submits an excessively large payload to your new batch endpoint, what system bottlenecks
+   could occur? How would you protect the service?
