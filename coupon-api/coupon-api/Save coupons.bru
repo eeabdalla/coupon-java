@@ -1,0 +1,25 @@
+meta {
+  name: Save coupons
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/coupons
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "code": "randomCouponCode",
+    "discount": 0.49,
+    "description": "Fixed coupon for 0.49 Euro off for next purchase",
+    "applicationCount": 0
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

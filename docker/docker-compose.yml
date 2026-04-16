@@ -1,0 +1,20 @@
+services:
+  coupon-db:
+    image: mongo:latest
+    restart: always
+    container_name: coupon-db
+    networks:
+      default:
+        aliases:
+          - mongo
+    expose:
+      - "27017"
+    ports:
+      - "27017:27017"
+    entrypoint: [ "/usr/bin/mongod", "--replSet", "coupon-db-rs", "--bind_ip_all" ]
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+  coupon-db-init:
+    build: "coupon-db-init"
+    container_name: "coupon-db-init"
