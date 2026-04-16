@@ -6,8 +6,7 @@
 # Part 2 - Architecture & Code Review:
 
 1. **Scalability**: Assuming the database grows to millions of records, what stability risks do you identify in the
-   current
-   GET endpoint, and how would you resolve them
+   current GET endpoint, and how would you resolve them?
 2. **Persistence**: Review the CouponRepository and the current cleanup logic. How could you simplify the code and
    optimize the data expiration using framework or native database features?
 3. **Resilience**: If a client submits an excessively large payload to your new batch endpoint, what system bottlenecks
