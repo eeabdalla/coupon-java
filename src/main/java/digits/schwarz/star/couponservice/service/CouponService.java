@@ -33,9 +33,13 @@ public class CouponService {
     }
 
     public void cleanup() {
-        // for simplicity hardcoded Duration
         var deletedCount = couponRepository.deleteCouponsOlderThan(Duration.of(5, ChronoUnit.MINUTES));
         log.info("Deleted {} coupons", deletedCount);
     }
 
+    public List<CouponModel> getCouponsByCodes(List<String> codes) {
+        return couponRepository.findAllByCodeIn(codes).stream()
+                .map(couponMapper::toModel)
+                .toList();
+    }
 }

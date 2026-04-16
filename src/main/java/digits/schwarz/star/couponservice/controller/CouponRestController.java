@@ -19,12 +19,18 @@ public class CouponRestController {
     private final CouponService couponService;
 
     @GetMapping
-    public ResponseEntity<List<CouponModel>> getCouponUseCase() {
-        return ResponseEntity.ok(couponService.getCoupons());
+    public ResponseEntity<List<CouponModel>> getCouponsByCodes(
+            @RequestParam(required = false) List<String> codes
+    ) {
+        if (codes == null || codes.isEmpty()) {
+            return ResponseEntity.ok(couponService.getCoupons());
+        } else {
+            return ResponseEntity.ok(couponService.getCouponsByCodes(codes));
+        }
     }
 
     @PostMapping
-    public ResponseEntity<Void> saveCouponUseCase(@RequestBody CouponModel model) {
+    public ResponseEntity<Void> saveCoupon(@RequestBody CouponModel model) {
         try {
             couponService.saveCoupon(model);
             return new ResponseEntity<>(HttpStatus.OK);
