@@ -2,7 +2,7 @@
 
 ## Project description
 
-This project is a simple implementation of all relevant technologies used in the STAR project.
+This project is a simple implementation of most of the technologies used in the STAR project.
 It contains e.g. Docker, Bruno, Spring Web, Spring Data MongoDB and Spring Schedulers.
 
 ## Setup local development environment
