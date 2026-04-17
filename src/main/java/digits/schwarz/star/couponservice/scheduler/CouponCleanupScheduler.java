@@ -13,7 +13,7 @@ public class CouponCleanupScheduler {
 
     private final CouponService couponService;
 
-    @Scheduled(cron = "0 */5 * * * *")
+    @Scheduled(cron = "${coupon.cleanup.cron}")
     public void doScheduledCleanup() {
         log.info("Starting cleanup of coupons.");
         couponService.cleanup();
