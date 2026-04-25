@@ -1,6 +1,8 @@
 package digits.schwarz.star.couponservice.model;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,7 +14,8 @@ public class CouponModel {
 
     @NotBlank(message = "coupon code must be provided")
     private String code;
-    @NotBlank(message = "discount must be provided")
+    @NotNull(message = "discount must be provided")
+    @Positive(message = "discount must be a positive value")
     private BigDecimal discount;
     @NotBlank(message = "coupon description must be provided")
     private String description;

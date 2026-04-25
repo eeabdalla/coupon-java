@@ -1,7 +1,9 @@
 package digits.schwarz.star.couponservice.controller;
 
+import digits.schwarz.star.couponservice.model.BulkCouponRequest;
 import digits.schwarz.star.couponservice.model.CouponModel;
 import digits.schwarz.star.couponservice.service.CouponService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -30,14 +32,15 @@ public class CouponRestController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> saveCoupon(@RequestBody CouponModel model) {
-        try {
+    public ResponseEntity<Void> saveCoupon(@Valid @RequestBody CouponModel model) {
             couponService.saveCoupon(model);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception exception) {
-            log.error("Saving coupon was not possible", exception);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+            return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping("/batch")
+    public ResponseEntity<List<CouponModel>> saveCoupons(@Valid @RequestBody BulkCouponRequest request) {
+        var saved = couponService.saveCoupons(request.getCoupons());
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
 }

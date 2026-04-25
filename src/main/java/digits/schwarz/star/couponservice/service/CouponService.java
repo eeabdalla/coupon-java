@@ -32,6 +32,21 @@ public class CouponService {
         couponRepository.save(entity);
     }
 
+    public List<CouponModel> saveCoupons(List<CouponModel> models) {
+        var now = Instant.now();
+        var entities = models.stream()
+            .map(model -> {
+                var entity = couponMapper.toEntity(model);
+                entity.setCreationDateTime(now);
+                return entity;
+            })
+            .toList();
+
+        return couponRepository.saveAll(entities).stream()
+            .map(couponMapper::toModel)
+            .toList();
+    }
+
     public void cleanup() {
         var deletedCount = couponRepository.deleteCouponsOlderThan(Duration.of(5, ChronoUnit.MINUTES));
         log.info("Deleted {} coupons", deletedCount);

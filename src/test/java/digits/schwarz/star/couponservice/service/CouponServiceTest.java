@@ -17,6 +17,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
@@ -123,5 +124,33 @@ class CouponServiceTest {
         then(couponMapper).should().toModel(entity1);
         then(couponMapper).should().toModel(entity2);
         then(couponRepository).shouldHaveNoMoreInteractions();
+    }
+
+    @Test
+    @DisplayName("Save multiple coupons sets creationDateTime and returns mapped models")
+    void saveCoupons_setsCreationDateAndReturnsMappedModels() {
+        // given
+        var model1 = CouponModel.builder().code("A1").build();
+        var model2 = CouponModel.builder().code("A2").build();
+
+        var entity1 = CouponEntity.builder().code("A1").build();
+        var entity2 = CouponEntity.builder().code("A2").build();
+
+        given(couponMapper.toEntity(model1)).willReturn(entity1);
+        given(couponMapper.toEntity(model2)).willReturn(entity2);
+        given(couponRepository.saveAll(any())).willReturn(List.of(entity1, entity2));
+        given(couponMapper.toModel(entity1)).willReturn(model1);
+        given(couponMapper.toModel(entity2)).willReturn(model2);
+
+        // when
+        var result = couponService.saveCoupons(List.of(model1, model2));
+
+        // then
+        assertThat(result).hasSize(2).containsExactly(model1, model2);
+        assertThat(entity1.getCreationDateTime()).isNotNull();
+        assertThat(entity2.getCreationDateTime()).isNotNull();
+        assertThat(entity1.getCreationDateTime()).isEqualTo(entity2.getCreationDateTime()); // same timestamp
+
+        then(couponRepository).should().saveAll(any());
     }
 }
