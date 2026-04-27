@@ -125,7 +125,7 @@ class CouponRestControllerTest {
 
     @Test
     @DisplayName("Save a new coupon successfully")
-    void saveCoupon_successful_returnsOk() throws Exception {
+    void saveCoupon_successful_returnsCreated() throws Exception {
         // given
         var newCoupon = CouponModel.builder()
                 .code("NEW50")
